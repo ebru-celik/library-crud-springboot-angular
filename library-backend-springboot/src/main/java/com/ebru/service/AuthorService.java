@@ -31,4 +31,39 @@ public class AuthorService {
 
         return authorData.map(author -> new ResponseEntity<>(author, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    public ResponseEntity<Author> addAuthor (Author author){
+        Author authorObj = authorRepository.save(new Author(author.getFirstName(),author.getLastName()));
+        return new ResponseEntity<>(authorObj, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<Author> updateAuthor (Long id, Author author){
+        Optional<Author> opt = authorRepository.findById(id);
+        if(!opt.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Author authorObj = opt.get();
+        authorObj.setFirstName(author.getFirstName());
+        authorObj.setLastName(author.getLastName());
+
+        return new ResponseEntity<>(authorRepository.save(authorObj), HttpStatus.OK);
+    }
+
+    public ResponseEntity<HttpStatus> deleteAuthor(Long id) {
+        try {
+            authorRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<HttpStatus> deleteAllAuthors() {
+        try {
+            authorRepository.deleteAll();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

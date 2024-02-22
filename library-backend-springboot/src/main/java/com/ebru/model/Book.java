@@ -17,19 +17,11 @@ public class Book {
     private long id;
     @Column(name = "BOOK_NAME", length = 100)
     private String bookName;
-    @Column(name = "STATUS", nullable = false )
-    private boolean status;
+    @Column(name = "AVAILABLE", nullable = false )
+    private boolean available;
 
-
-    // m            1
-    //books        Author
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Author author;
-
-
-    public Book(String bookName, boolean status) {
+    public Book(String bookName, boolean available) {
         this.bookName = bookName;
-        this.status = status;
+        this.available = available;
     }
 }

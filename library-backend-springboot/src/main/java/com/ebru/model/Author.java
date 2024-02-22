@@ -18,21 +18,24 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "ID")
     private long id;
-    @Column(name = "FIRST_NAME", length = 75)
+    @Column(name = "FIRST_NAME", length = 50)
     private String firstName;
-    @Column(name = "LAST_NAME", length = 75)
+    @Column(name = "LAST_NAME", length = 50)
     private String lastName;
 
 
     // 1             m
     //Author        Books
-    @OneToMany(mappedBy = "author",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private Set<Book> bookSet = new HashSet<>();
 
     public Author (String firstname, String lastname){
         this.firstName = firstname;
         this.lastName = lastname;
+    }
+
+    public void removeBooks() {
+        this.bookSet.clear();
     }
 }

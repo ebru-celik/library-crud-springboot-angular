@@ -25,9 +25,10 @@ public class BookController {
     }
 
     //  http://localhost:8080/api/books
+
     @GetMapping("/books")
-    public ResponseEntity<List<Book>> getAllBooks() {
-        return bookService.getAllBooks();
+    public ResponseEntity<List<Book>> getAllBooks(@RequestParam(required = false) String name) {
+        return bookService.getAllBooks(name);
     }
 
     //  http://localhost:8080/api/books/1
@@ -36,10 +37,16 @@ public class BookController {
         return bookService.getBookById(id);
     }
 
-    //  http://localhost:8080/api/books
-    @PostMapping("/books")
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        return bookService.addBook(book);
+    //  http://localhost:8080/api/authors/1/books
+    @GetMapping("/authors/{authorsId}/books")
+    public ResponseEntity<List<Book>> getAllBooksByAuthorId(@PathVariable("authorsId") Long authorsId){
+        return bookService.getAllBooksByAuthorId(authorsId);
+    }
+
+    //  http://localhost:8080/api/authors/1/books
+    @PostMapping("/authors/{authorsId}/books")
+    public ResponseEntity<Book> createBook(@PathVariable("authorsId") Long authorsId, @RequestBody Book book) {
+        return bookService.addBook(authorsId,book);
     }
 
     //  http://localhost:8080/api/books/1
@@ -60,9 +67,16 @@ public class BookController {
         return bookService.deleteAllBooks();
     }
 
-    //  http://localhost:8080/api/books/status
-    @GetMapping("/books/status")
-    public ResponseEntity<List<Book>> findByStatus() {
-        return bookService.findByStatus();
+    // http://localhost:8080/api/authors/1/books
+    @DeleteMapping("/authors/{authorsId}/books")
+    public ResponseEntity<List<Book>> deleteAllBooksOfAuthor(@PathVariable(value = "authorId") Long authorId) {
+        return bookService.deleteAllBooksOfAuthor(authorId);
     }
+
+    //  http://localhost:8080/api/books/available
+    @GetMapping("/books/available")
+    public ResponseEntity<List<Book>> findByAvailablity() {
+        return bookService.findByAvailability();
+    }
+
 }
