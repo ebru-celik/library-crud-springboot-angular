@@ -70,15 +70,15 @@ public class BookService {
     }
 
     public ResponseEntity<Book> updateBook(Long id, Book book) {
-        Optional<Book> bookData = bookRepository.findById(id);
-        if (bookData.isPresent()) {
-            Book bookObj = bookData.get();
-            bookObj.setBookName(book.getBookName());
-            bookObj.setAvailable(true);
-            return new ResponseEntity<>(bookRepository.save(bookObj), HttpStatus.OK);
-        } else {
+        Optional<Book> opt = bookRepository.findById(id);
+        if(!opt.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Book bookObj = opt.get();
+        bookObj.setBookName(book.getBookName());
+        bookObj.setAvailable(book.isAvailable());
+
+        return new ResponseEntity<>(bookRepository.save(bookObj), HttpStatus.OK);
     }
 
     public ResponseEntity<HttpStatus> deleteBook(Long id) {

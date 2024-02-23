@@ -69,7 +69,7 @@ public class BookController {
 
     // http://localhost:8080/api/authors/1/books
     @DeleteMapping("/authors/{authorsId}/books")
-    public ResponseEntity<List<Book>> deleteAllBooksOfAuthor(@PathVariable(value = "authorId") Long authorId) {
+    public ResponseEntity<List<Book>> deleteAllBooksOfAuthor(@PathVariable(value = "authorsId") Long authorId) {
         return bookService.deleteAllBooksOfAuthor(authorId);
     }
 
