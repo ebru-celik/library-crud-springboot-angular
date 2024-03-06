@@ -1,4 +1,4 @@
-package com.ebru.model;
+package com.ebru.repository.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +17,7 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "ID")
-    private long id;
+    private Long id;
     @Column(name = "FIRST_NAME", length = 50)
     private String firstName;
     @Column(name = "LAST_NAME", length = 50)
@@ -35,6 +35,11 @@ public class Author {
         this.lastName = lastname;
     }
 
+    public Author (Long id,String firstname, String lastname){
+        this.id = id;
+        this.firstName = firstname;
+        this.lastName = lastname;
+    }
     public void removeBooks() {
         this.bookSet.clear();
     }

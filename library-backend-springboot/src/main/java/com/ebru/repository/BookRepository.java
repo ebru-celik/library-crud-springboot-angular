@@ -1,6 +1,6 @@
 package com.ebru.repository;
 
-import com.ebru.model.Book;
+import com.ebru.repository.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

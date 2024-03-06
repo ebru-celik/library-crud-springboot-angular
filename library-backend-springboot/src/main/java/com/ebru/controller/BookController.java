@@ -1,6 +1,6 @@
 package com.ebru.controller;
 
-import com.ebru.model.Book;
+import com.ebru.repository.entity.Book;
 import com.ebru.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api") //  http://localhost:8080/api
 public class BookController {

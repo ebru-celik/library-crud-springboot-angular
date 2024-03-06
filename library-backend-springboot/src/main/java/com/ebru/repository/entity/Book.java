@@ -1,4 +1,4 @@
-package com.ebru.model;
+package com.ebru.repository.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,7 +1,13 @@
 package com.ebru.controller;
 
-import com.ebru.model.Author;
+import com.ebru.controller.model.AuthorRestResponse;
+import com.ebru.fault.exception.RestException;
+import com.ebru.repository.entity.Author;
+import com.ebru.service.model.AuthorDetail;
+import com.ebru.service.model.AuthorInfo;
+import com.ebru.controller.model.AuthorRestRequest;
 import com.ebru.service.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api") //  http://localhost:8080/api
 public class AuthorController {
-
+    private static final String ALPHANUM_PATTERN = "^[a-zA-Z0-9]*$";
     private final AuthorService authorService;
     public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
@@ -29,8 +35,15 @@ public class AuthorController {
     public ResponseEntity<Author> getAuthorById(@PathVariable("id") Long id){ return authorService.getAuthorById(id);}
 
     @PostMapping("/authors")
-    public ResponseEntity<Author> addAuthor(@RequestBody Author author) {
-        return authorService.addAuthor(author);
+    public ResponseEntity<AuthorRestResponse> addAuthor(@RequestBody @Valid AuthorRestRequest author) {
+        if(!author.getFirstName().matches(ALPHANUM_PATTERN)){
+            throw new RestException("Firstname should be alpha num characters");
+        }
+        final AuthorInfo authorInfo = new AuthorInfo(author.getFirstName(), author.getLastName());
+        AuthorDetail authorDetail = authorService.addAuthor(authorInfo);
+        AuthorRestResponse authorResponse = new AuthorRestResponse(authorDetail);
+
+        return ResponseEntity.ok(authorResponse);
     }
 
     @PutMapping("/authors/{id}")

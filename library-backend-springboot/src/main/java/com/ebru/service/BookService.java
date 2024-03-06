@@ -1,7 +1,7 @@
 package com.ebru.service;
 
-import com.ebru.model.Author;
-import com.ebru.model.Book;
+import com.ebru.repository.entity.Author;
+import com.ebru.repository.entity.Book;
 import com.ebru.repository.AuthorRepository;
 import com.ebru.repository.BookRepository;
 import jakarta.transaction.Transactional;
