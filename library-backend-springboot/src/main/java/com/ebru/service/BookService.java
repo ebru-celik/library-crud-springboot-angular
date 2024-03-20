@@ -28,9 +28,9 @@ public class BookService {
     public ResponseEntity<List<Book>> getAllBooks(String name) {
         List<Book> books = new ArrayList<>();
         if (name == null)
-            bookRepository.findAll().forEach(books::add);
+            books.addAll(bookRepository.findAll());
         else
-            bookRepository.findByBookName(name).forEach(books::add);
+            books.addAll(bookRepository.findByBookName(name));
 
         if (books.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -50,8 +50,7 @@ public class BookService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Author authorObj = opt.get();
-        List<Book> books = new ArrayList<>();
-        books.addAll(authorObj.getBookSet());
+        List<Book> books = new ArrayList<>(authorObj.getBookSet());
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
